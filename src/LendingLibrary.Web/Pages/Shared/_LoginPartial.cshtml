@@ -1,0 +1,22 @@
+@using Microsoft.AspNetCore.Identity
+@using LendingLibrary.Web.Domain.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="text-gray-500">@User.Identity?.Name</li>
+    if (User.IsInRole("Admin"))
+    {
+        <li><a class="text-gray-600 hover:text-gray-900" asp-area="Admin" asp-page="/Index">Admin</a></li>
+    }
+    <li>
+        <form method="post" asp-area="" asp-page="/Account/Logout">
+            <button type="submit" class="text-gray-600 hover:text-gray-900">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Account/Login">Login</a></li>
+    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Account/Register">Register</a></li>
+}

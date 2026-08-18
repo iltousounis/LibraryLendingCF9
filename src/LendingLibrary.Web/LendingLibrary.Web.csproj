@@ -16,6 +16,10 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Infrastructure\CommonPasswords.txt" />
+  </ItemGroup>
+
   <!--
     Compiles Tailwind CSS via the standalone CLI (no Node dependency).
     Locally on Windows this uses the binary in ../../tools; in the Docker build

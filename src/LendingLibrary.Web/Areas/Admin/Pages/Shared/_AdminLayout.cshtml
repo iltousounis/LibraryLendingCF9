@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin - Library Lending</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+</head>
+<body class="h-full bg-gray-50 text-gray-900 antialiased">
+    <header class="border-b border-gray-800 bg-gray-900 text-white">
+        <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+            <a class="text-lg font-semibold" asp-area="Admin" asp-page="/Index">Library Lending &middot; Admin</a>
+            <ul class="flex items-center gap-4 text-sm">
+                <li><a class="text-gray-300 hover:text-white" asp-area="" asp-page="/Index">Back to site</a></li>
+                <li>
+                    <form method="post" asp-area="" asp-page="/Account/Logout">
+                        <button type="submit" class="text-gray-300 hover:text-white">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-4 py-6">
+        @RenderBody()
+    </main>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

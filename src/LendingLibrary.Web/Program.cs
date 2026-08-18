@@ -7,12 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("Default")
-    ?? throw new InvalidOperationException("Connection string 'Default' is not configured.");
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeAreaFolder("Admin", "/", "RequireAdmin");
+});
 
-builder.Services.AddRazorPages();
-
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+// Reads builder.Configuration lazily (not into a variable up front) so that
+// WebApplicationFactory-based tests, which merge their config overrides in at
+// builder.Build() time, can still replace the connection string.
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")
+        ?? throw new InvalidOperationException("Connection string 'Default' is not configured.")));
 
 builder.Services
     .AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
@@ -28,9 +33,19 @@ builder.Services
         options.User.RequireUniqueEmail = true;
     })
     .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddPasswordValidator<CommonPasswordValidator>();
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("RequireAdmin", policy => policy.RequireRole("Admin"))
+    .AddPolicy("RequireUser", policy => policy.RequireAuthenticatedUser());
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
 
 // Persisted so cookies/tokens survive restarts and are shared across replicas in prod.
 var dataProtectionKeyPath = builder.Configuration["DataProtection:KeyPath"];
@@ -45,7 +60,8 @@ builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
 builder.Services.Configure<LendingOptions>(builder.Configuration.GetSection(LendingOptions.SectionName));
 
 builder.Services.AddHealthChecks()
-    .AddNpgSql(connectionString);
+    .AddNpgSql(builder.Configuration.GetConnectionString("Default")
+        ?? throw new InvalidOperationException("Connection string 'Default' is not configured."));
 
 var app = builder.Build();
 
@@ -78,3 +94,6 @@ app.MapRazorPages()
 app.MapHealthChecks("/health");
 
 app.Run();
+
+// Exposed so WebApplicationFactory<Program> can host this app in integration tests.
+public partial class Program;
