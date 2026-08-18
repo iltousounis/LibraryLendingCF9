@@ -30,6 +30,9 @@ public class CatalogueItem
 
     public DateTimeOffset UpdatedAtUtc { get; set; }
 
+    /// <summary>Soft-delete marker; null means active. Filtered out by a global query filter.</summary>
+    public DateTimeOffset? DeletedAtUtc { get; set; }
+
     /// <summary>Postgres xmin system column, used as an optimistic concurrency token.</summary>
     public uint RowVersion { get; set; }
 

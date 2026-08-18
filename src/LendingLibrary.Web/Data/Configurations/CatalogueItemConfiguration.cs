@@ -15,7 +15,7 @@ public class CatalogueItemConfiguration : IEntityTypeConfiguration<CatalogueItem
         builder.Property(i => i.ItemType).HasConversion<string>().HasMaxLength(20);
 
         builder.HasIndex(i => i.Title);
-        builder.HasIndex(i => i.Isbn).IsUnique().HasFilter("\"Isbn\" IS NOT NULL");
+        builder.HasIndex(i => i.Isbn).IsUnique().HasFilter("\"Isbn\" IS NOT NULL AND \"DeletedAtUtc\" IS NULL");
         builder.HasIndex(i => i.Publisher);
         builder.HasIndex(i => i.PublicationYear);
 
@@ -23,5 +23,7 @@ public class CatalogueItemConfiguration : IEntityTypeConfiguration<CatalogueItem
             .HasColumnName("xmin")
             .HasColumnType("xid")
             .IsRowVersion();
+
+        builder.HasQueryFilter(i => i.DeletedAtUtc == null);
     }
 }

@@ -1,0 +1,65 @@
+@page "{id:guid}"
+@model LendingLibrary.Web.Pages.Catalogue.DetailsModel
+@{
+    ViewData["Title"] = Model.Item.Title;
+}
+
+<a asp-page="./Index" class="text-sm text-gray-600 hover:text-gray-900">&larr; Back to catalogue</a>
+
+<div class="mt-4 grid grid-cols-1 gap-6 md:grid-cols-3">
+    <div class="md:col-span-1">
+        @if (!string.IsNullOrEmpty(Model.Item.CoverImageUrl))
+        {
+            <img src="@Model.Item.CoverImageUrl" alt="Cover of @Model.Item.Title" class="w-full rounded-lg border border-gray-200 object-cover" />
+        }
+        else
+        {
+            <div class="flex aspect-[2/3] w-full items-center justify-center rounded-lg border border-gray-200 bg-gray-100 text-sm text-gray-400">
+                No cover
+            </div>
+        }
+    </div>
+
+    <div class="md:col-span-2">
+        <p class="text-xs font-medium uppercase tracking-wide text-gray-500">@Model.Item.ItemType</p>
+        <h1 class="mt-1 text-2xl font-bold">@Model.Item.Title</h1>
+
+        @if (!string.IsNullOrEmpty(Model.Item.Authors))
+        {
+            <p class="mt-1 text-gray-600">@Model.Item.Authors</p>
+        }
+
+        <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-3">
+            @if (!string.IsNullOrEmpty(Model.Item.Publisher))
+            {
+                <div>
+                    <dt class="text-gray-500">Publisher</dt>
+                    <dd>@Model.Item.Publisher</dd>
+                </div>
+            }
+            @if (Model.Item.PublicationYear is { } year)
+            {
+                <div>
+                    <dt class="text-gray-500">Year</dt>
+                    <dd>@year</dd>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.Item.Isbn))
+            {
+                <div>
+                    <dt class="text-gray-500">ISBN</dt>
+                    <dd>@Model.Item.Isbn</dd>
+                </div>
+            }
+        </dl>
+
+        @if (!string.IsNullOrEmpty(Model.Item.Description))
+        {
+            <p class="mt-4 text-gray-700">@Model.Item.Description</p>
+        }
+
+        <p class="mt-6 inline-block rounded-md px-3 py-1.5 text-sm font-medium @(Model.Item.AvailableUnits > 0 ? "bg-green-50 text-green-700" : "bg-red-50 text-red-600")">
+            @(Model.Item.AvailableUnits > 0 ? $"{Model.Item.AvailableUnits} of {Model.Item.TotalUnits} available" : "Out of stock")
+        </p>
+    </div>
+</div>

@@ -1,6 +1,8 @@
 using LendingLibrary.Web.Data;
 using LendingLibrary.Web.Domain.Entities;
 using LendingLibrary.Web.Infrastructure;
+using LendingLibrary.Web.Services.Abstractions;
+using LendingLibrary.Web.Services.Implementations;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +59,7 @@ if (!string.IsNullOrWhiteSpace(dataProtectionKeyPath))
 
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
+builder.Services.AddScoped<ICatalogueService, CatalogueService>();
 builder.Services.Configure<LendingOptions>(builder.Configuration.GetSection(LendingOptions.SectionName));
 
 builder.Services.AddHealthChecks()

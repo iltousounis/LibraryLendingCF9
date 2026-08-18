@@ -1,0 +1,21 @@
+@page "{id:guid}"
+@model LendingLibrary.Web.Areas.Admin.Pages.Catalogue.DeleteModel
+@{
+    ViewData["Title"] = "Delete catalogue item";
+}
+
+<h1 class="text-2xl font-bold">Delete catalogue item</h1>
+
+<p class="mt-4 text-gray-700">
+    Are you sure you want to delete <strong>@Model.Item.Title</strong>? This removes it from the
+    catalogue and public listings; existing loan history is preserved.
+</p>
+
+<form method="post" class="mt-6 flex gap-3">
+    <button type="submit" class="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700">
+        Delete
+    </button>
+    <a asp-page="./Index" class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-100">
+        Cancel
+    </a>
+</form>

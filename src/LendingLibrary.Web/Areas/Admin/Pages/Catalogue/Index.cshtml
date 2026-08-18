@@ -1,0 +1,66 @@
+@page
+@model LendingLibrary.Web.Areas.Admin.Pages.Catalogue.IndexModel
+@using LendingLibrary.Web.Domain.Enums
+@{
+    ViewData["Title"] = "Catalogue";
+}
+
+<div class="flex items-center justify-between">
+    <h1 class="text-2xl font-bold">Catalogue</h1>
+    <a asp-page="./Create" class="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800">
+        New item
+    </a>
+</div>
+
+<form method="get" class="mt-4 flex flex-wrap items-end gap-3">
+    <div>
+        <label asp-for="Q" class="block text-sm font-medium">Search</label>
+        <input asp-for="Q" placeholder="Title, author, ISBN, publisher..." class="mt-1 block w-64 rounded-md border border-gray-300 px-3 py-2 text-sm" />
+    </div>
+    <div>
+        <label asp-for="Type" class="block text-sm font-medium">Type</label>
+        <select asp-for="Type" asp-items="Html.GetEnumSelectList<ItemType>()" class="mt-1 block rounded-md border border-gray-300 px-3 py-2 text-sm">
+            <option value="">Any</option>
+        </select>
+    </div>
+    <button type="submit" class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-100">
+        Search
+    </button>
+</form>
+
+<div class="mt-6 overflow-x-auto rounded-lg border border-gray-200 bg-white">
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-4 py-2 text-left font-medium text-gray-500">Title</th>
+                <th class="px-4 py-2 text-left font-medium text-gray-500">Type</th>
+                <th class="px-4 py-2 text-left font-medium text-gray-500">ISBN</th>
+                <th class="px-4 py-2 text-right font-medium text-gray-500">Available / Total</th>
+                <th class="px-4 py-2"></th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+            @foreach (var item in Model.Results.Items)
+            {
+                <tr>
+                    <td class="px-4 py-2 font-medium">@item.Title</td>
+                    <td class="px-4 py-2">@item.ItemType</td>
+                    <td class="px-4 py-2">@item.Isbn</td>
+                    <td class="px-4 py-2 text-right">@item.AvailableUnits / @item.TotalUnits</td>
+                    <td class="px-4 py-2 text-right">
+                        <a class="text-gray-700 hover:underline" asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="ml-3 text-red-600 hover:underline" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+            @if (Model.Results.Items.Count == 0)
+            {
+                <tr>
+                    <td colspan="5" class="px-4 py-6 text-center text-gray-500">No items match your search.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<partial name="_Pager" model="Model.Pager" />

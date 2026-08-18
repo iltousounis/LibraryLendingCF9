@@ -1,5 +1,4 @@
 using System.Net;
-using System.Text.RegularExpressions;
 
 namespace LendingLibrary.IntegrationTests;
 
@@ -37,14 +36,14 @@ public class AuthenticationTests(LendingLibraryWebApplicationFactory factory)
         var email = $"test-{Guid.NewGuid():N}@example.com";
 
         var registerPage = await client.GetAsync("/Account/Register");
-        var token = await ExtractAntiforgeryTokenAsync(registerPage);
+        var token = await TestHelpers.ExtractAntiforgeryTokenAsync(registerPage);
 
         var form = new Dictionary<string, string>
         {
             ["Input.DisplayName"] = "Integration Test",
             ["Input.Email"] = email,
-            ["Input.Password"] = "Xk9$vTq2#mZp7Lw!",
-            ["Input.ConfirmPassword"] = "Xk9$vTq2#mZp7Lw!",
+            ["Input.Password"] = TestHelpers.DefaultPassword,
+            ["Input.ConfirmPassword"] = TestHelpers.DefaultPassword,
             ["__RequestVerificationToken"] = token
         };
 
@@ -64,7 +63,7 @@ public class AuthenticationTests(LendingLibraryWebApplicationFactory factory)
         var client = factory.CreateClient();
 
         var loginPage = await client.GetAsync("/Account/Login");
-        var token = await ExtractAntiforgeryTokenAsync(loginPage);
+        var token = await TestHelpers.ExtractAntiforgeryTokenAsync(loginPage);
 
         var form = new Dictionary<string, string>
         {
@@ -78,19 +77,5 @@ public class AuthenticationTests(LendingLibraryWebApplicationFactory factory)
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var html = await response.Content.ReadAsStringAsync();
         Assert.Contains("Invalid email or password", html);
-    }
-
-    private static async Task<string> ExtractAntiforgeryTokenAsync(HttpResponseMessage response)
-    {
-        response.EnsureSuccessStatusCode();
-        var html = await response.Content.ReadAsStringAsync();
-
-        var inputTag = Regex.Match(html, @"<input[^>]*name=""__RequestVerificationToken""[^>]*>");
-        Assert.True(inputTag.Success, "Antiforgery input not found on page.");
-
-        var value = Regex.Match(inputTag.Value, @"value=""([^""]+)""");
-        Assert.True(value.Success, "Antiforgery token value not found.");
-
-        return value.Groups[1].Value;
     }
 }
