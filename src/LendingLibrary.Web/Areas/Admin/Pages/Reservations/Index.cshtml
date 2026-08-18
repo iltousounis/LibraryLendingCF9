@@ -1,0 +1,53 @@
+@page
+@model LendingLibrary.Web.Areas.Admin.Pages.Reservations.IndexModel
+@{
+    ViewData["Title"] = "Pending reservations";
+}
+
+<h1 class="text-2xl font-bold">Pending reservations</h1>
+
+@if (!string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <p class="mt-4 rounded-md bg-green-50 px-3 py-2 text-sm text-green-700">@Model.StatusMessage</p>
+}
+
+<div class="mt-6 overflow-x-auto rounded-lg border border-gray-200 bg-white">
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-4 py-2 text-left font-medium text-gray-500">Item</th>
+                <th class="px-4 py-2 text-left font-medium text-gray-500">Reserved by</th>
+                <th class="px-4 py-2 text-left font-medium text-gray-500">Reserved</th>
+                <th class="px-4 py-2 text-left font-medium text-gray-500">Expires</th>
+                <th class="px-4 py-2"></th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+            @foreach (var reservation in Model.Results.Items)
+            {
+                <tr>
+                    <td class="px-4 py-2 font-medium">@reservation.CatalogueItem.Title</td>
+                    <td class="px-4 py-2">@reservation.User.DisplayName (@reservation.User.Email)</td>
+                    <td class="px-4 py-2">@reservation.ReservedAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
+                    <td class="px-4 py-2">@reservation.ExpiresAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
+                    <td class="px-4 py-2 text-right whitespace-nowrap">
+                        <form method="post" asp-page-handler="Fulfil" asp-route-reservationId="@reservation.Id" asp-route-page="@Model.PageNumber" class="inline">
+                            <button type="submit" class="text-gray-700 hover:underline">Fulfil</button>
+                        </form>
+                        <form method="post" asp-page-handler="Cancel" asp-route-reservationId="@reservation.Id" asp-route-page="@Model.PageNumber" class="ml-3 inline">
+                            <button type="submit" class="text-red-600 hover:underline">Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            @if (Model.Results.Items.Count == 0)
+            {
+                <tr>
+                    <td colspan="5" class="px-4 py-6 text-center text-gray-500">No pending reservations.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<partial name="_Pager" model="Model.Pager" />

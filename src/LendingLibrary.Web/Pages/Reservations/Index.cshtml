@@ -1,0 +1,49 @@
+@page
+@model LendingLibrary.Web.Pages.Reservations.IndexModel
+@{
+    ViewData["Title"] = "My Reservations";
+}
+
+<h1 class="text-2xl font-bold">My reservations</h1>
+
+@if (!string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <p class="mt-4 rounded-md bg-green-50 px-3 py-2 text-sm text-green-700">@Model.StatusMessage</p>
+}
+
+@if (Model.Results.Items.Count == 0)
+{
+    <p class="mt-6 text-gray-600">No pending reservations.</p>
+}
+else
+{
+    <div class="mt-6 overflow-x-auto rounded-lg border border-gray-200 bg-white">
+        <table class="min-w-full divide-y divide-gray-200 text-sm">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-2 text-left font-medium text-gray-500">Item</th>
+                    <th class="px-4 py-2 text-left font-medium text-gray-500">Reserved</th>
+                    <th class="px-4 py-2 text-left font-medium text-gray-500">Expires</th>
+                    <th class="px-4 py-2"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                @foreach (var reservation in Model.Results.Items)
+                {
+                    <tr>
+                        <td class="px-4 py-2 font-medium">@reservation.CatalogueItem.Title</td>
+                        <td class="px-4 py-2">@reservation.ReservedAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
+                        <td class="px-4 py-2">@reservation.ExpiresAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
+                        <td class="px-4 py-2 text-right">
+                            <form method="post" asp-page-handler="Cancel" asp-route-reservationId="@reservation.Id" asp-route-page="@Model.PageNumber">
+                                <button type="submit" class="text-red-600 hover:underline">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<partial name="_Pager" model="Model.Pager" />

@@ -19,10 +19,10 @@
         <dt class="text-sm text-gray-500">Overdue</dt>
         <dd class="text-2xl font-semibold text-red-600">@Model.OverdueLoans</dd>
     </a>
-    <div class="rounded-lg border border-gray-200 bg-white p-4">
+    <a asp-page="/Reservations/Index" class="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-sm">
         <dt class="text-sm text-gray-500">Active reservations</dt>
         <dd class="text-2xl font-semibold">@Model.ActiveReservations</dd>
-    </div>
+    </a>
     <div class="rounded-lg border border-gray-200 bg-white p-4">
         <dt class="text-sm text-gray-500">Registered users</dt>
         <dd class="text-2xl font-semibold">@Model.RegisteredUsers</dd>

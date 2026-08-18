@@ -9,6 +9,7 @@ namespace LendingLibrary.Web.Pages.Catalogue;
 public class DetailsModel(
     ICatalogueService catalogueService,
     ILendingService lendingService,
+    IReservationService reservationService,
     UserManager<ApplicationUser> userManager) : PageModel
 {
     public CatalogueItem Item { get; private set; } = null!;
@@ -44,6 +45,24 @@ public class DetailsModel(
         StatusIsError = !result.Succeeded;
         StatusMessage = result.Succeeded
             ? "Borrowed! It's due back in 14 days. See it under \"My loans\"."
+            : result.Error;
+
+        return RedirectToPage("./Details", new { id });
+    }
+
+    public async Task<IActionResult> OnPostReserveAsync(Guid id)
+    {
+        if (User.Identity?.IsAuthenticated != true)
+        {
+            return RedirectToPage("/Account/Login", new { returnUrl = Url.Page("./Details", new { id }) });
+        }
+
+        var userId = userManager.GetUserId(User);
+        var result = await reservationService.ReserveAsync(Guid.Parse(userId!), id);
+
+        StatusIsError = !result.Succeeded;
+        StatusMessage = result.Succeeded
+            ? "Reserved for pickup! It's held for 3 days. See it under \"My reservations\"."
             : result.Error;
 
         return RedirectToPage("./Details", new { id });

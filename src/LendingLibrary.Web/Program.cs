@@ -61,6 +61,8 @@ builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
 builder.Services.AddScoped<ICatalogueService, CatalogueService>();
 builder.Services.AddScoped<ILendingService, LendingService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddHostedService<ReservationExpiryService>();
 builder.Services.Configure<LendingOptions>(builder.Configuration.GetSection(LendingOptions.SectionName));
 
 builder.Services.AddHealthChecks()
