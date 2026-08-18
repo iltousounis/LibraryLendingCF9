@@ -1,12 +1,12 @@
 @page
-@model LendingLibrary.Web.Areas.Admin.Pages.Loans.IndexModel
+@model LendingLibrary.Web.Areas.Admin.Pages.Loans.OverdueModel
 @{
-    ViewData["Title"] = "Active loans";
+    ViewData["Title"] = "Overdue report";
 }
 
 <div class="flex items-center justify-between">
-    <h1 class="text-2xl font-bold">Active loans</h1>
-    <a asp-page="./Overdue" class="text-sm text-gray-600 hover:text-gray-900">Overdue only &rarr;</a>
+    <h1 class="text-2xl font-bold">Overdue report</h1>
+    <a asp-page="./Index" class="text-sm text-gray-600 hover:text-gray-900">All active loans &rarr;</a>
 </div>
 
 @if (!string.IsNullOrEmpty(Model.StatusMessage))
@@ -34,10 +34,7 @@
                     <td class="px-4 py-2">@loan.BorrowedAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
                     <td class="px-4 py-2">
                         @loan.DueAtUtc.ToLocalTime().ToString("d MMM yyyy")
-                        @if (loan.IsOverdue(DateTimeOffset.UtcNow))
-                        {
-                            <span class="ml-1 rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700">Overdue</span>
-                        }
+                        <span class="ml-1 rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700">Overdue</span>
                     </td>
                     <td class="px-4 py-2 text-right">
                         <form method="post" asp-page-handler="Return" asp-route-loanId="@loan.Id" asp-route-page="@Model.PageNumber">
@@ -49,7 +46,7 @@
             @if (Model.Results.Items.Count == 0)
             {
                 <tr>
-                    <td colspan="5" class="px-4 py-6 text-center text-gray-500">No active loans.</td>
+                    <td colspan="5" class="px-4 py-6 text-center text-gray-500">No overdue loans.</td>
                 </tr>
             }
         </tbody>

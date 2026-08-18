@@ -132,4 +132,23 @@ public class LendingService(AppDbContext db, TimeProvider timeProvider) : ILendi
 
         return new PagedResult<Loan>(items, page, pageSize, totalCount);
     }
+
+    public async Task<PagedResult<Loan>> GetOverdueLoansAsync(
+        int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        page = Math.Max(page, 1);
+        pageSize = Math.Clamp(pageSize, 1, 100);
+        var now = timeProvider.GetUtcNow();
+
+        var query = db.Loans.AsNoTracking().IgnoreQueryFilters()
+            .Include(l => l.CatalogueItem)
+            .Include(l => l.User)
+            .Where(l => l.Status == LoanStatus.Active && l.DueAtUtc < now)
+            .OrderBy(l => l.DueAtUtc);
+
+        var totalCount = await query.CountAsync(cancellationToken);
+        var items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
+
+        return new PagedResult<Loan>(items, page, pageSize, totalCount);
+    }
 }

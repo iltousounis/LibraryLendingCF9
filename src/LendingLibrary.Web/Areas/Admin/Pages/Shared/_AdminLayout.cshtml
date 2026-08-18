@@ -8,13 +8,17 @@
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
 </head>
 <body class="h-full bg-gray-50 text-gray-900 antialiased">
+    <a href="#main-content" class="skip-link rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Skip to content</a>
+
     <header class="border-b border-gray-800 bg-gray-900 text-white">
-        <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+        <nav class="relative mx-auto flex max-w-5xl items-center justify-between px-4 py-3" aria-label="Admin">
             <a class="text-lg font-semibold" asp-area="Admin" asp-page="/Index">Library Lending &middot; Admin</a>
-            <ul class="flex items-center gap-4 text-sm">
+
+            <ul class="hidden items-center gap-4 text-sm sm:flex">
                 <li><a class="text-gray-300 hover:text-white" asp-area="Admin" asp-page="/Catalogue/Index">Catalogue</a></li>
                 <li><a class="text-gray-300 hover:text-white" asp-area="Admin" asp-page="/Loans/Index">Loans</a></li>
                 <li><a class="text-gray-300 hover:text-white" asp-area="Admin" asp-page="/Reservations/Index">Reservations</a></li>
+                <li><a class="text-gray-300 hover:text-white" asp-area="Admin" asp-page="/Users/Index">Users</a></li>
                 <li><a class="text-gray-300 hover:text-white" asp-area="" asp-page="/Index">Back to site</a></li>
                 <li>
                     <form method="post" asp-area="" asp-page="/Account/Logout">
@@ -22,10 +26,26 @@
                     </form>
                 </li>
             </ul>
+
+            <details class="sm:hidden">
+                <summary class="list-none rounded-md border border-gray-600 px-3 py-1.5 text-sm">Menu</summary>
+                <ul class="absolute inset-x-0 top-full z-10 space-y-3 border-t border-gray-800 bg-gray-900 px-4 py-4 text-sm shadow-sm">
+                    <li><a class="text-gray-300 hover:text-white" asp-area="Admin" asp-page="/Catalogue/Index">Catalogue</a></li>
+                    <li><a class="text-gray-300 hover:text-white" asp-area="Admin" asp-page="/Loans/Index">Loans</a></li>
+                    <li><a class="text-gray-300 hover:text-white" asp-area="Admin" asp-page="/Reservations/Index">Reservations</a></li>
+                    <li><a class="text-gray-300 hover:text-white" asp-area="Admin" asp-page="/Users/Index">Users</a></li>
+                    <li><a class="text-gray-300 hover:text-white" asp-area="" asp-page="/Index">Back to site</a></li>
+                    <li>
+                        <form method="post" asp-area="" asp-page="/Account/Logout">
+                            <button type="submit" class="text-gray-300 hover:text-white">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </details>
         </nav>
     </header>
 
-    <main class="mx-auto max-w-5xl px-4 py-6">
+    <main id="main-content" class="mx-auto max-w-5xl px-4 py-6">
         @RenderBody()
     </main>
 

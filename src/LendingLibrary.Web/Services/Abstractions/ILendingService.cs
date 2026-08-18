@@ -18,4 +18,7 @@ public interface ILendingService
 
     /// <summary>All active loans across all users, for admin return processing.</summary>
     Task<PagedResult<Loan>> GetActiveLoansAsync(int page, int pageSize, CancellationToken cancellationToken = default);
+
+    /// <summary>All overdue loans across all users — the admin overdue report.</summary>
+    Task<PagedResult<Loan>> GetOverdueLoansAsync(int page, int pageSize, CancellationToken cancellationToken = default);
 }

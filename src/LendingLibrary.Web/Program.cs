@@ -62,6 +62,7 @@ builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
 builder.Services.AddScoped<ICatalogueService, CatalogueService>();
 builder.Services.AddScoped<ILendingService, LendingService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<IUserAdminService, UserAdminService>();
 builder.Services.AddHostedService<ReservationExpiryService>();
 builder.Services.Configure<LendingOptions>(builder.Configuration.GetSection(LendingOptions.SectionName));
 
@@ -85,6 +86,8 @@ else
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 app.UseHttpsRedirection();
 

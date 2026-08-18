@@ -8,19 +8,32 @@
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
 </head>
 <body class="h-full bg-gray-50 text-gray-900 antialiased">
+    <a href="#main-content" class="skip-link rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Skip to content</a>
+
     <header class="border-b border-gray-200 bg-white">
-        <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+        <nav class="relative mx-auto flex max-w-5xl items-center justify-between px-4 py-3" aria-label="Main">
             <a class="text-lg font-semibold" asp-area="" asp-page="/Index">Library Lending</a>
-            <ul class="flex items-center gap-4 text-sm">
+
+            <ul class="hidden items-center gap-4 text-sm sm:flex">
                 <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Index">Home</a></li>
                 <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Catalogue/Index">Catalogue</a></li>
                 <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Privacy">Privacy</a></li>
                 <partial name="_LoginPartial" />
             </ul>
+
+            <details class="sm:hidden">
+                <summary class="list-none rounded-md border border-gray-300 px-3 py-1.5 text-sm">Menu</summary>
+                <ul class="absolute inset-x-0 top-full z-10 space-y-3 border-t border-gray-200 bg-white px-4 py-4 text-sm shadow-sm">
+                    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Catalogue/Index">Catalogue</a></li>
+                    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Privacy">Privacy</a></li>
+                    <partial name="_LoginPartial" />
+                </ul>
+            </details>
         </nav>
     </header>
 
-    <main class="mx-auto max-w-5xl px-4 py-6">
+    <main id="main-content" class="mx-auto max-w-5xl px-4 py-6">
         @RenderBody()
     </main>
 
