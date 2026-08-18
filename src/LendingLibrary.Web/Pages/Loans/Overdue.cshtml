@@ -1,0 +1,11 @@
+@page
+@model LendingLibrary.Web.Pages.Loans.OverdueModel
+@{
+    ViewData["Title"] = "My Loans";
+    ViewData["ActiveLoansTab"] = "Overdue";
+}
+
+<h1 class="text-2xl font-bold">My loans</h1>
+<partial name="_SubNav" />
+<partial name="_LoanTable" model="Model.Results.Items" />
+<partial name="_Pager" model="Model.Pager" />

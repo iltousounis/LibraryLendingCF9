@@ -4,6 +4,7 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Loans/Current">My loans</a></li>
     <li class="text-gray-500">@User.Identity?.Name</li>
     if (User.IsInRole("Admin"))
     {

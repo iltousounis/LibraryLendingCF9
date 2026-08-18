@@ -61,5 +61,33 @@
         <p class="mt-6 inline-block rounded-md px-3 py-1.5 text-sm font-medium @(Model.Item.AvailableUnits > 0 ? "bg-green-50 text-green-700" : "bg-red-50 text-red-600")">
             @(Model.Item.AvailableUnits > 0 ? $"{Model.Item.AvailableUnits} of {Model.Item.TotalUnits} available" : "Out of stock")
         </p>
+
+        @if (!string.IsNullOrEmpty(Model.StatusMessage))
+        {
+            <p class="mt-4 rounded-md px-3 py-2 text-sm @(Model.StatusIsError ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700")">
+                @Model.StatusMessage
+            </p>
+        }
+
+        <div class="mt-4">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                @if (Model.Item.AvailableUnits > 0)
+                {
+                    <form method="post" asp-page-handler="Borrow" asp-route-id="@Model.Item.Id">
+                        <button type="submit" class="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800">
+                            Borrow
+                        </button>
+                    </form>
+                }
+            }
+            else
+            {
+                <a asp-page="/Account/Login" asp-route-returnUrl="@Url.Page("./Details", new { id = Model.Item.Id })"
+                   class="text-sm font-medium text-gray-900 hover:underline">
+                    Log in to borrow
+                </a>
+            }
+        </div>
     </div>
 </div>

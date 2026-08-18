@@ -60,6 +60,7 @@ if (!string.IsNullOrWhiteSpace(dataProtectionKeyPath))
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
 builder.Services.AddScoped<ICatalogueService, CatalogueService>();
+builder.Services.AddScoped<ILendingService, LendingService>();
 builder.Services.Configure<LendingOptions>(builder.Configuration.GetSection(LendingOptions.SectionName));
 
 builder.Services.AddHealthChecks()
