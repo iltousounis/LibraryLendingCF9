@@ -3,9 +3,11 @@ using LendingLibrary.Web.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace LendingLibrary.Web.Pages.Account;
 
+[EnableRateLimiting("auth")]
 public class LoginModel(SignInManager<ApplicationUser> signInManager) : PageModel
 {
     [BindProperty]

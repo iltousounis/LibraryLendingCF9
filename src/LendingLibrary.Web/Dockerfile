@@ -10,8 +10,9 @@ RUN dotnet restore src/LendingLibrary.Web/LendingLibrary.Web.csproj
 
 COPY src/LendingLibrary.Web/ src/LendingLibrary.Web/
 
-# Standalone Tailwind CLI (Linux x64) — no Node in the image.
-ADD https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 /usr/local/bin/tailwindcss
+# Standalone Tailwind CLI (Linux x64), pinned for reproducible builds — no Node in the image.
+ARG TAILWIND_VERSION=v4.3.3
+ADD https://github.com/tailwindlabs/tailwindcss/releases/download/${TAILWIND_VERSION}/tailwindcss-linux-x64 /usr/local/bin/tailwindcss
 RUN chmod +x /usr/local/bin/tailwindcss
 
 WORKDIR /src/src/LendingLibrary.Web
@@ -19,6 +20,11 @@ RUN dotnet publish LendingLibrary.Web.csproj -c Release -o /app/publish --no-res
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
+
+# curl for the HEALTHCHECK below; installed while still root.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
 
 # The base image ships a non-root "app" user (uid $APP_UID) — no adduser needed.
 # /keys is where the Data Protection key ring volume gets mounted; it must be
@@ -30,5 +36,8 @@ COPY --from=build --chown=$APP_UID:$APP_UID /app/publish .
 
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
 
 ENTRYPOINT ["dotnet", "LendingLibrary.Web.dll"]

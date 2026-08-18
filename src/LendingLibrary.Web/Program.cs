@@ -1,11 +1,33 @@
+using System.Threading.RateLimiting;
 using LendingLibrary.Web.Data;
 using LendingLibrary.Web.Domain.Entities;
 using LendingLibrary.Web.Infrastructure;
 using LendingLibrary.Web.Services.Abstractions;
 using LendingLibrary.Web.Services.Implementations;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+
+// One-shot migration mode: `dotnet LendingLibrary.Web.dll --migrate` applies pending migrations
+// against the same image, then exits — the prod migration strategy (an init/one-shot container),
+// separate from the app's own normal startup, which never auto-migrates outside Development.
+if (args.Contains("--migrate"))
+{
+    var migrationBuilder = WebApplication.CreateBuilder(args);
+    migrationBuilder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(migrationBuilder.Configuration.GetConnectionString("Default")
+            ?? throw new InvalidOperationException("Connection string 'Default' is not configured.")));
+
+    await using var migrationHost = migrationBuilder.Build();
+    using var migrationScope = migrationHost.Services.CreateScope();
+    var migrationDb = migrationScope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await migrationDb.Database.MigrateAsync();
+
+    Console.WriteLine("Migrations applied successfully.");
+    return;
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +63,29 @@ builder.Services
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("RequireAdmin", policy => policy.RequireRole("Admin"))
     .AddPolicy("RequireUser", policy => policy.RequireAuthenticatedUser());
+
+// Blunts brute-force attempts against login/register (applied via [EnableRateLimiting("auth")]).
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("auth", httpContext => RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+        factory: _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 10,
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 0
+        }));
+});
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    // KnownProxies/KnownNetworks default to loopback-only, which is correct for a same-host
+    // sidecar proxy but too strict for a separate proxy container/host. Before deploying behind
+    // one, add its address, e.g.: options.KnownNetworks.Add(IPNetwork.Parse("10.0.0.0/8"));
+    // Trusting an unrestricted set of proxies lets a client spoof X-Forwarded-* headers.
+});
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -89,9 +134,15 @@ else
 
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
+// Must run before anything that reads scheme/remote IP (HTTPS redirection, the rate limiter's
+// per-IP partitioning, HSTS) so those see the original client info, not the proxy's.
+app.UseForwardedHeaders();
+
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();

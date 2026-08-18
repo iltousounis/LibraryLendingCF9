@@ -33,6 +33,22 @@ services:
       db:
         condition: service_healthy
 
+  # One-shot prod migration container: the same image, run with --migrate instead of the normal
+  # entrypoint. Not part of the default `docker compose up` — outside Development, `web` never
+  # auto-migrates, so run this (or the equivalent `docker run <image> --migrate`) before starting
+  # `web` in a real deployment: `docker compose --profile prod-migrate run --rm migrate`.
+  migrate:
+    profiles: ["prod-migrate"]
+    build:
+      context: .
+      dockerfile: src/LendingLibrary.Web/Dockerfile
+    entrypoint: ["dotnet", "LendingLibrary.Web.dll", "--migrate"]
+    environment:
+      ConnectionStrings__Default: Host=db;Port=5432;Database=${POSTGRES_DB:-lendinglibrary};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   db-data:
   dataprotection-keys:
