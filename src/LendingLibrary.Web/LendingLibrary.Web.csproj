@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+  </ItemGroup>
+
+  <!--
+    Compiles Tailwind CSS via the standalone CLI (no Node dependency).
+    Locally on Windows this uses the binary in ../../tools; in the Docker build
+    stage it resolves "tailwindcss" from PATH (placed there by the Dockerfile).
+    Set the TailwindCli property to override either path.
+  -->
+  <PropertyGroup>
+    <TailwindCli Condition="'$(TailwindCli)' == '' AND '$(OS)' == 'Windows_NT'">$(MSBuildThisFileDirectory)..\..\tools\tailwindcss-windows-x64.exe</TailwindCli>
+    <TailwindCli Condition="'$(TailwindCli)' == ''">tailwindcss</TailwindCli>
+  </PropertyGroup>
+
+  <Target Name="TailwindBuild" BeforeTargets="Build">
+    <Exec Command="&quot;$(TailwindCli)&quot; -i Styles/app.css -o wwwroot/css/app.css --minify"
+          WorkingDirectory="$(MSBuildProjectDirectory)"
+          ContinueOnError="WarnAndContinue" />
+  </Target>
+
+</Project>

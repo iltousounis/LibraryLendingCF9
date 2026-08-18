@@ -1,0 +1,7 @@
+**/bin/
+**/obj/
+.vs/
+.git/
+tools/
+tests/
+src/LendingLibrary.Web/wwwroot/css/app.css

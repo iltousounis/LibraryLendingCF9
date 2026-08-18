@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LendingLibrary.Web/LendingLibrary.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LendingLibrary.IntegrationTests/LendingLibrary.IntegrationTests.csproj" />
+    <Project Path="tests/LendingLibrary.UnitTests/LendingLibrary.UnitTests.csproj" />
+  </Folder>
+</Solution>
