@@ -5,41 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Library Lending</title>
     <script type="importmap"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
 </head>
-<body class="h-full bg-gray-50 text-gray-900 antialiased">
-    <a href="#main-content" class="skip-link rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Skip to content</a>
+<body class="h-full bg-stone-50 text-stone-900 antialiased">
+    <a href="#main-content" class="skip-link rounded-md bg-amber-900 px-3 py-2 text-sm font-medium text-white">Skip to content</a>
 
-    <header class="border-b border-gray-200 bg-white">
+    <header class="border-b border-stone-200 bg-white">
         <nav class="relative mx-auto flex max-w-5xl items-center justify-between px-4 py-3" aria-label="Main">
-            <a class="text-lg font-semibold" asp-area="" asp-page="/Index">Library Lending</a>
+            <a class="flex items-center gap-2 font-serif text-lg font-semibold text-stone-900" asp-area="" asp-page="/Index">
+                <span aria-hidden="true" class="text-amber-800">&#128214;</span>
+                Library Lending
+            </a>
 
-            <ul class="hidden items-center gap-4 text-sm sm:flex">
-                <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Index">Home</a></li>
-                <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Catalogue/Index">Catalogue</a></li>
-                <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Privacy">Privacy</a></li>
+            <ul class="hidden items-center gap-5 sm:flex">
+                <li><a class="nav-link" asp-area="" asp-page="/Index">Home</a></li>
+                <li><a class="nav-link" asp-area="" asp-page="/Catalogue/Index">Catalogue</a></li>
+                <li><a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a></li>
                 <partial name="_LoginPartial" />
             </ul>
 
             <details class="sm:hidden">
-                <summary class="list-none rounded-md border border-gray-300 px-3 py-1.5 text-sm">Menu</summary>
-                <ul class="absolute inset-x-0 top-full z-10 space-y-3 border-t border-gray-200 bg-white px-4 py-4 text-sm shadow-sm">
-                    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Index">Home</a></li>
-                    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Catalogue/Index">Catalogue</a></li>
-                    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Privacy">Privacy</a></li>
+                <summary class="list-none rounded-md border border-stone-300 px-3 py-1.5 text-sm">Menu</summary>
+                <ul class="absolute inset-x-0 top-full z-10 space-y-3 border-t border-stone-200 bg-white px-4 py-4 shadow-sm">
+                    <li><a class="nav-link" asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a class="nav-link" asp-area="" asp-page="/Catalogue/Index">Catalogue</a></li>
+                    <li><a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a></li>
                     <partial name="_LoginPartial" />
                 </ul>
             </details>
         </nav>
     </header>
 
-    <main id="main-content" class="mx-auto max-w-5xl px-4 py-6">
+    <main id="main-content" class="mx-auto max-w-5xl px-4 py-8">
         @RenderBody()
     </main>
 
-    <footer class="border-t border-gray-200 py-4">
-        <div class="mx-auto max-w-5xl px-4 text-sm text-gray-500">
-            &copy; 2026 Library Lending &middot; <a class="hover:text-gray-800" asp-area="" asp-page="/Privacy">Privacy</a>
+    <footer class="border-t border-stone-200 py-6">
+        <div class="mx-auto max-w-5xl px-4 text-sm text-stone-500">
+            &copy; 2026 Library Lending &middot; <a class="link-muted" asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 

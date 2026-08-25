@@ -4,38 +4,38 @@
     ViewData["Title"] = "Pending reservations";
 }
 
-<h1 class="text-2xl font-bold">Pending reservations</h1>
+<h1 class="page-title">Pending reservations</h1>
 
 @if (!string.IsNullOrEmpty(Model.StatusMessage))
 {
-    <p class="mt-4 rounded-md bg-green-50 px-3 py-2 text-sm text-green-700">@Model.StatusMessage</p>
+    <p class="mt-4 alert-success">@Model.StatusMessage</p>
 }
 
-<div class="mt-6 overflow-x-auto rounded-lg border border-gray-200 bg-white">
-    <table class="min-w-full divide-y divide-gray-200 text-sm">
-        <thead class="bg-gray-50">
+<div class="mt-6 table-card">
+    <table class="table-base">
+        <thead>
             <tr>
-                <th class="px-4 py-2 text-left font-medium text-gray-500">Item</th>
-                <th class="px-4 py-2 text-left font-medium text-gray-500">Reserved by</th>
-                <th class="px-4 py-2 text-left font-medium text-gray-500">Reserved</th>
-                <th class="px-4 py-2 text-left font-medium text-gray-500">Expires</th>
-                <th class="px-4 py-2"></th>
+                <th>Item</th>
+                <th>Reserved by</th>
+                <th>Reserved</th>
+                <th>Expires</th>
+                <th></th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100">
+        <tbody>
             @foreach (var reservation in Model.Results.Items)
             {
                 <tr>
-                    <td class="px-4 py-2 font-medium">@reservation.CatalogueItem.Title</td>
-                    <td class="px-4 py-2">@reservation.User.DisplayName (@reservation.User.Email)</td>
-                    <td class="px-4 py-2">@reservation.ReservedAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
-                    <td class="px-4 py-2">@reservation.ExpiresAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
-                    <td class="px-4 py-2 text-right whitespace-nowrap">
+                    <td class="font-medium text-stone-900">@reservation.CatalogueItem.Title</td>
+                    <td>@reservation.User.DisplayName (@reservation.User.Email)</td>
+                    <td>@reservation.ReservedAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
+                    <td>@reservation.ExpiresAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
+                    <td class="text-right whitespace-nowrap">
                         <form method="post" asp-page-handler="Fulfil" asp-route-reservationId="@reservation.Id" asp-route-page="@Model.PageNumber" class="inline">
-                            <button type="submit" class="text-gray-700 hover:underline">Fulfil</button>
+                            <button type="submit" class="link-muted">Fulfil</button>
                         </form>
                         <form method="post" asp-page-handler="Cancel" asp-route-reservationId="@reservation.Id" asp-route-page="@Model.PageNumber" class="ml-3 inline">
-                            <button type="submit" class="text-red-600 hover:underline">Cancel</button>
+                            <button type="submit" class="link-danger">Cancel</button>
                         </form>
                     </td>
                 </tr>
@@ -43,7 +43,7 @@
             @if (Model.Results.Items.Count == 0)
             {
                 <tr>
-                    <td colspan="5" class="px-4 py-6 text-center text-gray-500">No pending reservations.</td>
+                    <td colspan="5" class="px-4 py-6 text-center text-stone-500">No pending reservations.</td>
                 </tr>
             }
         </tbody>

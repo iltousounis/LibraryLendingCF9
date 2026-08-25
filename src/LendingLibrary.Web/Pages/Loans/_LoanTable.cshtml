@@ -7,44 +7,44 @@
 
 @if (Model.Count == 0)
 {
-    <p class="mt-6 text-gray-600">Nothing here.</p>
+    <p class="mt-6 text-stone-600">Nothing here.</p>
 }
 else
 {
-    <div class="mt-6 overflow-x-auto rounded-lg border border-gray-200 bg-white">
-        <table class="min-w-full divide-y divide-gray-200 text-sm">
-            <thead class="bg-gray-50">
+    <div class="mt-6 table-card">
+        <table class="table-base">
+            <thead>
                 <tr>
-                    <th class="px-4 py-2 text-left font-medium text-gray-500">Item</th>
-                    <th class="px-4 py-2 text-left font-medium text-gray-500">Borrowed</th>
+                    <th>Item</th>
+                    <th>Borrowed</th>
                     @if (showReturned)
                     {
-                        <th class="px-4 py-2 text-left font-medium text-gray-500">Returned</th>
+                        <th>Returned</th>
                     }
                     else
                     {
-                        <th class="px-4 py-2 text-left font-medium text-gray-500">Due</th>
-                        <th class="px-4 py-2"></th>
+                        <th>Due</th>
+                        <th></th>
                     }
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
+            <tbody>
                 @foreach (var loan in Model)
                 {
                     <tr>
-                        <td class="px-4 py-2 font-medium">@loan.CatalogueItem.Title</td>
-                        <td class="px-4 py-2">@loan.BorrowedAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
+                        <td class="font-medium text-stone-900">@loan.CatalogueItem.Title</td>
+                        <td>@loan.BorrowedAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
                         @if (showReturned)
                         {
-                            <td class="px-4 py-2">@loan.ReturnedAtUtc?.ToLocalTime().ToString("d MMM yyyy")</td>
+                            <td>@loan.ReturnedAtUtc?.ToLocalTime().ToString("d MMM yyyy")</td>
                         }
                         else
                         {
-                            <td class="px-4 py-2">@loan.DueAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
-                            <td class="px-4 py-2 text-right">
+                            <td>@loan.DueAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
+                            <td class="text-right">
                                 @if (loan.IsOverdue(now))
                                 {
-                                    <span class="rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700">Overdue</span>
+                                    <span class="badge-danger">Overdue</span>
                                 }
                             </td>
                         }

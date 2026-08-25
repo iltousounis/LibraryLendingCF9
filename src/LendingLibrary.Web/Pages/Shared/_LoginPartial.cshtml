@@ -4,21 +4,21 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Loans/Current">My loans</a></li>
-    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Reservations/Index">My reservations</a></li>
-    <li class="text-gray-500">@User.Identity?.Name</li>
+    <li><a class="nav-link" asp-area="" asp-page="/Loans/Current">My loans</a></li>
+    <li><a class="nav-link" asp-area="" asp-page="/Reservations/Index">My reservations</a></li>
+    <li class="text-sm text-stone-400">@User.Identity?.Name</li>
     if (User.IsInRole("Admin"))
     {
-        <li><a class="text-gray-600 hover:text-gray-900" asp-area="Admin" asp-page="/Index">Admin</a></li>
+        <li><a class="nav-link" asp-area="Admin" asp-page="/Index">Admin</a></li>
     }
     <li>
         <form method="post" asp-area="" asp-page="/Account/Logout">
-            <button type="submit" class="text-gray-600 hover:text-gray-900">Logout</button>
+            <button type="submit" class="nav-link">Logout</button>
         </form>
     </li>
 }
 else
 {
-    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Account/Login">Login</a></li>
-    <li><a class="text-gray-600 hover:text-gray-900" asp-area="" asp-page="/Account/Register">Register</a></li>
+    <li><a class="nav-link" asp-area="" asp-page="/Account/Login">Login</a></li>
+    <li><a class="btn-primary !px-3 !py-1.5 text-sm" asp-area="" asp-page="/Account/Register">Register</a></li>
 }

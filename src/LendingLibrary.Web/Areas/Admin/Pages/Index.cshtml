@@ -4,27 +4,27 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<h1 class="text-2xl font-bold">Admin dashboard</h1>
+<h1 class="page-title">Admin dashboard</h1>
 
 <dl class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-    <a asp-page="/Catalogue/Index" class="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-sm">
-        <dt class="text-sm text-gray-500">Catalogue items</dt>
-        <dd class="text-2xl font-semibold">@Model.TotalItems</dd>
+    <a asp-page="/Catalogue/Index" class="card-link">
+        <dt class="text-sm text-stone-500">Catalogue items</dt>
+        <dd class="mt-1 text-2xl font-semibold text-stone-900">@Model.TotalItems</dd>
     </a>
-    <a asp-page="/Loans/Index" class="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-sm">
-        <dt class="text-sm text-gray-500">On loan</dt>
-        <dd class="text-2xl font-semibold">@Model.ItemsOnLoan</dd>
+    <a asp-page="/Loans/Index" class="card-link">
+        <dt class="text-sm text-stone-500">On loan</dt>
+        <dd class="mt-1 text-2xl font-semibold text-stone-900">@Model.ItemsOnLoan</dd>
     </a>
-    <a asp-page="/Loans/Overdue" class="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-sm">
-        <dt class="text-sm text-gray-500">Overdue</dt>
-        <dd class="text-2xl font-semibold text-red-600">@Model.OverdueLoans</dd>
+    <a asp-page="/Loans/Overdue" class="card-link">
+        <dt class="text-sm text-stone-500">Overdue</dt>
+        <dd class="mt-1 text-2xl font-semibold text-rose-600">@Model.OverdueLoans</dd>
     </a>
-    <a asp-page="/Reservations/Index" class="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-sm">
-        <dt class="text-sm text-gray-500">Active reservations</dt>
-        <dd class="text-2xl font-semibold">@Model.ActiveReservations</dd>
+    <a asp-page="/Reservations/Index" class="card-link">
+        <dt class="text-sm text-stone-500">Active reservations</dt>
+        <dd class="mt-1 text-2xl font-semibold text-stone-900">@Model.ActiveReservations</dd>
     </a>
-    <a asp-page="/Users/Index" class="rounded-lg border border-gray-200 bg-white p-4 hover:shadow-sm">
-        <dt class="text-sm text-gray-500">Registered users</dt>
-        <dd class="text-2xl font-semibold">@Model.RegisteredUsers</dd>
+    <a asp-page="/Users/Index" class="card-link">
+        <dt class="text-sm text-stone-500">Registered users</dt>
+        <dd class="mt-1 text-2xl font-semibold text-stone-900">@Model.RegisteredUsers</dd>
     </a>
 </dl>

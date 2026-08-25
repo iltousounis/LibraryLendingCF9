@@ -4,39 +4,39 @@
     ViewData["Title"] = "My Reservations";
 }
 
-<h1 class="text-2xl font-bold">My reservations</h1>
+<h1 class="page-title">My reservations</h1>
 
 @if (!string.IsNullOrEmpty(Model.StatusMessage))
 {
-    <p class="mt-4 rounded-md bg-green-50 px-3 py-2 text-sm text-green-700">@Model.StatusMessage</p>
+    <p class="mt-4 alert-success">@Model.StatusMessage</p>
 }
 
 @if (Model.Results.Items.Count == 0)
 {
-    <p class="mt-6 text-gray-600">No pending reservations.</p>
+    <p class="mt-6 text-stone-600">No pending reservations.</p>
 }
 else
 {
-    <div class="mt-6 overflow-x-auto rounded-lg border border-gray-200 bg-white">
-        <table class="min-w-full divide-y divide-gray-200 text-sm">
-            <thead class="bg-gray-50">
+    <div class="mt-6 table-card">
+        <table class="table-base">
+            <thead>
                 <tr>
-                    <th class="px-4 py-2 text-left font-medium text-gray-500">Item</th>
-                    <th class="px-4 py-2 text-left font-medium text-gray-500">Reserved</th>
-                    <th class="px-4 py-2 text-left font-medium text-gray-500">Expires</th>
-                    <th class="px-4 py-2"></th>
+                    <th>Item</th>
+                    <th>Reserved</th>
+                    <th>Expires</th>
+                    <th></th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
+            <tbody>
                 @foreach (var reservation in Model.Results.Items)
                 {
                     <tr>
-                        <td class="px-4 py-2 font-medium">@reservation.CatalogueItem.Title</td>
-                        <td class="px-4 py-2">@reservation.ReservedAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
-                        <td class="px-4 py-2">@reservation.ExpiresAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
-                        <td class="px-4 py-2 text-right">
+                        <td class="font-medium text-stone-900">@reservation.CatalogueItem.Title</td>
+                        <td>@reservation.ReservedAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
+                        <td>@reservation.ExpiresAtUtc.ToLocalTime().ToString("d MMM yyyy")</td>
+                        <td class="text-right">
                             <form method="post" asp-page-handler="Cancel" asp-route-reservationId="@reservation.Id" asp-route-page="@Model.PageNumber">
-                                <button type="submit" class="text-red-600 hover:underline">Cancel</button>
+                                <button type="submit" class="link-danger">Cancel</button>
                             </form>
                         </td>
                     </tr>

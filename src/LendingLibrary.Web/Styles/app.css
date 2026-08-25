@@ -2,16 +2,21 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
 }
 
 @layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+
   a:focus-visible,
   button:focus-visible,
   input:focus-visible,
   select:focus-visible,
   textarea:focus-visible,
   summary:focus-visible {
-    outline: 2px solid #111827;
+    outline: 2px solid var(--color-amber-600);
     outline-offset: 2px;
   }
 
@@ -25,5 +30,139 @@
   .skip-link:focus {
     left: 1rem;
     top: 1rem;
+  }
+}
+
+@layer components {
+  /* Typography */
+  .page-title {
+    @apply font-serif text-3xl font-semibold tracking-tight text-stone-900;
+  }
+
+  .section-title {
+    @apply font-serif text-xl font-semibold tracking-tight text-stone-900;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 bg-amber-800 text-white hover:bg-amber-900;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 border border-stone-300 bg-white text-stone-700 hover:bg-stone-100;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 bg-rose-700 text-white hover:bg-rose-800;
+  }
+
+  .link {
+    @apply font-medium text-amber-800 hover:text-amber-900 hover:underline;
+  }
+
+  .link-muted {
+    @apply text-stone-600 hover:text-stone-900;
+  }
+
+  .link-danger {
+    @apply text-rose-700 hover:text-rose-800 hover:underline;
+  }
+
+  /* Forms */
+  .field-label {
+    @apply block text-sm font-medium text-stone-700;
+  }
+
+  .field-input {
+    @apply mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400;
+  }
+
+  .field-checkbox {
+    @apply h-4 w-4 rounded border-stone-300 text-amber-800 focus:ring-amber-600;
+  }
+
+  .field-error {
+    @apply mt-1 block text-sm text-rose-700;
+  }
+
+  /* Surfaces */
+  .card {
+    @apply rounded-lg border border-stone-200 bg-white p-4 shadow-sm;
+  }
+
+  .card-link {
+    @apply block rounded-lg border border-stone-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  /* Badges */
+  .badge-success {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-700;
+  }
+
+  .badge-danger {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-rose-50 text-rose-700;
+  }
+
+  .badge-muted {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-stone-100 text-stone-600;
+  }
+
+  /* Alerts */
+  .alert-success {
+    @apply rounded-md border border-emerald-100 bg-emerald-50 px-3 py-2 text-sm text-emerald-700;
+  }
+
+  .alert-error {
+    @apply rounded-md border border-rose-100 bg-rose-50 px-3 py-2 text-sm text-rose-700;
+  }
+
+  /* Tables */
+  .table-card {
+    @apply overflow-x-auto rounded-lg border border-stone-200 bg-white;
+  }
+
+  .table-base {
+    @apply min-w-full divide-y divide-stone-200 text-sm;
+  }
+
+  .table-base thead {
+    @apply bg-stone-50;
+  }
+
+  .table-base th {
+    @apply px-4 py-2.5 text-left font-medium text-stone-500;
+  }
+
+  .table-base tbody {
+    @apply divide-y divide-stone-100;
+  }
+
+  .table-base td {
+    @apply px-4 py-2.5 text-stone-800;
+  }
+
+  /* Navigation */
+  .nav-link {
+    @apply text-sm font-medium text-stone-600 transition-colors hover:text-amber-800;
+  }
+
+  .tab-link {
+    @apply border-b-2 border-transparent px-1 pb-2 text-sm text-stone-500 hover:text-stone-900;
+  }
+
+  .tab-link-active {
+    @apply border-b-2 border-amber-800 px-1 pb-2 text-sm font-medium text-amber-900;
+  }
+
+  .pager-link {
+    @apply rounded-md border border-stone-300 px-3 py-1.5 text-sm hover:bg-stone-100;
+  }
+
+  .pager-link-active {
+    @apply rounded-md border border-amber-800 bg-amber-800 px-3 py-1.5 text-sm text-white;
+  }
+
+  .pager-link-disabled {
+    @apply rounded-md border border-stone-300 px-3 py-1.5 text-sm pointer-events-none opacity-40;
   }
 }

@@ -4,7 +4,14 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="text-3xl font-bold tracking-tight">Library Lending</h1>
-    <p class="mt-2 text-gray-600">Browse the catalogue, borrow up to 3 items, and reserve for pickup.</p>
+<div class="rounded-xl border border-stone-200 bg-white px-6 py-16 text-center">
+    <p aria-hidden="true" class="text-3xl text-amber-800">&#128214;</p>
+    <h1 class="page-title mt-3 text-4xl">Library Lending</h1>
+    <p class="mx-auto mt-3 max-w-md text-stone-600">
+        Browse the catalogue, borrow up to 3 items, and reserve for pickup.
+    </p>
+    <div class="mt-6 flex justify-center gap-3">
+        <a asp-area="" asp-page="/Catalogue/Index" class="btn-primary">Browse the catalogue</a>
+        <a asp-area="" asp-page="/Account/Register" class="btn-secondary">Create an account</a>
+    </div>
 </div>

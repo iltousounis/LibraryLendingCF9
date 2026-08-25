@@ -6,17 +6,17 @@
 
 @if (Model.TotalPages > 1)
 {
-    <nav class="mt-6 flex items-center justify-center gap-1 text-sm" aria-label="Pagination">
-        <a class="rounded-md border border-gray-300 px-3 py-1.5 @(Model.Page <= 1 ? "pointer-events-none opacity-40" : "hover:bg-gray-100")"
+    <nav class="mt-6 flex items-center justify-center gap-1" aria-label="Pagination">
+        <a class="@(Model.Page <= 1 ? "pager-link-disabled" : "pager-link")"
            href="@Model.PageUrl(Math.Max(Model.Page - 1, 1))">Prev</a>
 
         @for (var p = start; p <= end; p++)
         {
-            <a class="rounded-md border px-3 py-1.5 @(p == Model.Page ? "border-gray-900 bg-gray-900 text-white" : "border-gray-300 hover:bg-gray-100")"
+            <a class="@(p == Model.Page ? "pager-link-active" : "pager-link")"
                href="@Model.PageUrl(p)">@p</a>
         }
 
-        <a class="rounded-md border border-gray-300 px-3 py-1.5 @(Model.Page >= Model.TotalPages ? "pointer-events-none opacity-40" : "hover:bg-gray-100")"
+        <a class="@(Model.Page >= Model.TotalPages ? "pager-link-disabled" : "pager-link")"
            href="@Model.PageUrl(Math.Min(Model.Page + 1, Model.TotalPages))">Next</a>
     </nav>
 }

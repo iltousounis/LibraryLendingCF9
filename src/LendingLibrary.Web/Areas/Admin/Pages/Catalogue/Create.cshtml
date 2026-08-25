@@ -5,68 +5,68 @@
     ViewData["Title"] = "New catalogue item";
 }
 
-<h1 class="text-2xl font-bold">New catalogue item</h1>
+<h1 class="page-title">New catalogue item</h1>
 
-<form method="post" class="mt-6 max-w-2xl space-y-4">
-    <div asp-validation-summary="ModelOnly" class="text-sm text-red-600"></div>
+<form method="post" class="mt-6 max-w-2xl space-y-4 rounded-lg border border-stone-200 bg-white p-6">
+    <div asp-validation-summary="ModelOnly" class="field-error"></div>
 
     <div>
-        <label asp-for="Input.Title" class="block text-sm font-medium">Title</label>
-        <input asp-for="Input.Title" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm" />
-        <span asp-validation-for="Input.Title" class="text-sm text-red-600"></span>
+        <label asp-for="Input.Title" class="field-label">Title</label>
+        <input asp-for="Input.Title" class="field-input" />
+        <span asp-validation-for="Input.Title" class="field-error"></span>
     </div>
 
     <div class="grid grid-cols-2 gap-4">
         <div>
-            <label asp-for="Input.ItemType" class="block text-sm font-medium">Item type</label>
-            <select asp-for="Input.ItemType" asp-items="Html.GetEnumSelectList<ItemType>()" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"></select>
-            <span asp-validation-for="Input.ItemType" class="text-sm text-red-600"></span>
+            <label asp-for="Input.ItemType" class="field-label">Item type</label>
+            <select asp-for="Input.ItemType" asp-items="Html.GetEnumSelectList<ItemType>()" class="field-input"></select>
+            <span asp-validation-for="Input.ItemType" class="field-error"></span>
         </div>
         <div>
-            <label asp-for="Input.TotalUnits" class="block text-sm font-medium">Total units</label>
-            <input asp-for="Input.TotalUnits" type="number" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm" />
-            <span asp-validation-for="Input.TotalUnits" class="text-sm text-red-600"></span>
+            <label asp-for="Input.TotalUnits" class="field-label">Total units</label>
+            <input asp-for="Input.TotalUnits" type="number" class="field-input" />
+            <span asp-validation-for="Input.TotalUnits" class="field-error"></span>
         </div>
     </div>
 
     <div>
-        <label asp-for="Input.Authors" class="block text-sm font-medium">Author(s)</label>
-        <input asp-for="Input.Authors" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm" />
+        <label asp-for="Input.Authors" class="field-label">Author(s)</label>
+        <input asp-for="Input.Authors" class="field-input" />
     </div>
 
     <div class="grid grid-cols-3 gap-4">
         <div>
-            <label asp-for="Input.Publisher" class="block text-sm font-medium">Publisher</label>
-            <input asp-for="Input.Publisher" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm" />
+            <label asp-for="Input.Publisher" class="field-label">Publisher</label>
+            <input asp-for="Input.Publisher" class="field-input" />
         </div>
         <div>
-            <label asp-for="Input.Isbn" class="block text-sm font-medium">ISBN</label>
-            <input asp-for="Input.Isbn" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm" />
-            <span asp-validation-for="Input.Isbn" class="text-sm text-red-600"></span>
+            <label asp-for="Input.Isbn" class="field-label">ISBN</label>
+            <input asp-for="Input.Isbn" class="field-input" />
+            <span asp-validation-for="Input.Isbn" class="field-error"></span>
         </div>
         <div>
-            <label asp-for="Input.PublicationYear" class="block text-sm font-medium">Year</label>
-            <input asp-for="Input.PublicationYear" type="number" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm" />
-            <span asp-validation-for="Input.PublicationYear" class="text-sm text-red-600"></span>
+            <label asp-for="Input.PublicationYear" class="field-label">Year</label>
+            <input asp-for="Input.PublicationYear" type="number" class="field-input" />
+            <span asp-validation-for="Input.PublicationYear" class="field-error"></span>
         </div>
     </div>
 
     <div>
-        <label asp-for="Input.CoverImageUrl" class="block text-sm font-medium">Cover image URL</label>
-        <input asp-for="Input.CoverImageUrl" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm" />
-        <span asp-validation-for="Input.CoverImageUrl" class="text-sm text-red-600"></span>
+        <label asp-for="Input.CoverImageUrl" class="field-label">Cover image URL</label>
+        <input asp-for="Input.CoverImageUrl" class="field-input" />
+        <span asp-validation-for="Input.CoverImageUrl" class="field-error"></span>
     </div>
 
     <div>
-        <label asp-for="Input.Description" class="block text-sm font-medium">Description</label>
-        <textarea asp-for="Input.Description" rows="4" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"></textarea>
+        <label asp-for="Input.Description" class="field-label">Description</label>
+        <textarea asp-for="Input.Description" rows="4" class="field-input"></textarea>
     </div>
 
     <div class="flex gap-3">
-        <button type="submit" class="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800">
+        <button type="submit" class="btn-primary">
             Create
         </button>
-        <a asp-page="./Index" class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-100">
+        <a asp-page="./Index" class="btn-secondary">
             Cancel
         </a>
     </div>
