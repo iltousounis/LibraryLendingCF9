@@ -31,7 +31,14 @@
     <TailwindCli Condition="'$(TailwindCli)' == ''">tailwindcss</TailwindCli>
   </PropertyGroup>
 
-  <Target Name="TailwindBuild" BeforeTargets="Build">
+  <!--
+    Must run before AssignTargetPaths: that's the target that turns wwwroot files into
+    static web asset items, and it runs before Compile. BeforeTargets="Build" alone fires
+    too late (after AssignTargetPaths has already snapshotted wwwroot), so a freshly
+    regenerated app.css never makes it into the static web assets manifest and 404s
+    at runtime despite existing on disk.
+  -->
+  <Target Name="TailwindBuild" BeforeTargets="AssignTargetPaths;Build">
     <Exec Command="&quot;$(TailwindCli)&quot; -i Styles/app.css -o wwwroot/css/app.css --minify"
           WorkingDirectory="$(MSBuildProjectDirectory)"
           ContinueOnError="WarnAndContinue" />

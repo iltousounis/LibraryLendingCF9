@@ -16,6 +16,15 @@ ADD https://github.com/tailwindlabs/tailwindcss/releases/download/${TAILWIND_VER
 RUN chmod +x /usr/local/bin/tailwindcss
 
 WORKDIR /src/src/LendingLibrary.Web
+
+# Generated before `dotnet publish` (not just via the csproj's own TailwindBuild target):
+# wwwroot/css/app.css is .dockerignore'd out of the build context, so at MSBuild's project
+# evaluation the wwwroot glob is fixed with the file absent — a target created later in the
+# same build execution never joins that glob, so the static web assets manifest ends up
+# without it (404 at runtime) even though the file exists on disk. Running it here first
+# means the file is already present when dotnet publish evaluates the project.
+RUN tailwindcss -i Styles/app.css -o wwwroot/css/app.css --minify
+
 RUN dotnet publish LendingLibrary.Web.csproj -c Release -o /app/publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
