@@ -10,7 +10,7 @@
     <div class="md:col-span-1">
         @if (!string.IsNullOrEmpty(Model.Item.CoverImageUrl))
         {
-            <img src="@Model.Item.CoverImageUrl" alt="Cover of @Model.Item.Title" class="w-full rounded-lg border border-stone-200 object-cover shadow-sm" />
+            <img src="@Model.Item.CoverImageUrl" alt="Cover of @Model.Item.Title" class="aspect-[2/3] w-full rounded-lg border border-stone-200 object-cover shadow-sm" />
         }
         else
         {

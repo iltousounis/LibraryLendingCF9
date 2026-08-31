@@ -59,16 +59,28 @@ else
     <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         @foreach (var item in Model.Results.Items)
         {
-            <a asp-page="./Details" asp-route-id="@item.Id" class="card-link">
-                <p class="text-xs font-medium uppercase tracking-wide text-amber-800">@item.ItemType</p>
-                <h2 class="mt-1 font-serif font-semibold text-stone-900">@item.Title</h2>
-                @if (!string.IsNullOrEmpty(item.Authors))
+            <a asp-page="./Details" asp-route-id="@item.Id" class="card-link flex gap-3">
+                @if (!string.IsNullOrEmpty(item.CoverImageUrl))
                 {
-                    <p class="text-sm text-stone-600">@item.Authors</p>
+                    <img src="@item.CoverImageUrl" alt="Cover of @item.Title" class="h-20 w-14 flex-none rounded-md border border-stone-200 object-cover shadow-sm" />
                 }
-                <p class="mt-2 text-sm @(item.AvailableUnits > 0 ? "text-emerald-700" : "text-rose-600")">
-                    @(item.AvailableUnits > 0 ? $"{item.AvailableUnits} available" : "Out of stock")
-                </p>
+                else
+                {
+                    <div class="flex h-20 w-14 flex-none items-center justify-center rounded-md border border-stone-200 bg-stone-100 text-[10px] text-stone-400">
+                        No cover
+                    </div>
+                }
+                <div class="min-w-0">
+                    <p class="text-xs font-medium uppercase tracking-wide text-amber-800">@item.ItemType</p>
+                    <h2 class="mt-1 font-serif font-semibold text-stone-900">@item.Title</h2>
+                    @if (!string.IsNullOrEmpty(item.Authors))
+                    {
+                        <p class="text-sm text-stone-600">@item.Authors</p>
+                    }
+                    <p class="mt-2 text-sm @(item.AvailableUnits > 0 ? "text-emerald-700" : "text-rose-600")">
+                        @(item.AvailableUnits > 0 ? $"{item.AvailableUnits} available" : "Out of stock")
+                    </p>
+                </div>
             </a>
         }
     </div>
