@@ -30,6 +30,8 @@ docker compose up
 
 The app is served at `http://localhost:8080`. Set `ADMIN_EMAIL` / `ADMIN_PASSWORD` in `.env` to seed an initial admin account on startup (Development environment only).
 
+**Windows one-click launcher:** `src/LendingLibrary.Launcher` builds a double-clickable exe that starts Docker Desktop if needed, runs `docker compose up -d`, waits for the app to become healthy, then opens it in your default browser. Build it once with `dotnet publish -c Release` from that folder and run the resulting `tools/.../LendingLibrary-Launcher.exe` from anywhere inside the repo.
+
 ### Option B: Database in Docker, app on the host
 
 ```bash

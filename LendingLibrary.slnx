@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/LendingLibrary.Launcher/LendingLibrary.Launcher.csproj" />
     <Project Path="src/LendingLibrary.Web/LendingLibrary.Web.csproj" />
   </Folder>
   <Folder Name="/tests/">
