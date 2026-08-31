@@ -2,5 +2,6 @@ bin/
 obj/
 .vs/
 *.user
-tools/
+tools/*
+!tools/LendingLibrary-Launcher.exe
 .env
