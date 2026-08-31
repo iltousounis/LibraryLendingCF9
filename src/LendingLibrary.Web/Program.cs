@@ -125,6 +125,7 @@ if (app.Environment.IsDevelopment())
 
     var timeProvider = scope.ServiceProvider.GetRequiredService<TimeProvider>();
     await IdentitySeeder.SeedAsync(scope.ServiceProvider, app.Configuration, timeProvider);
+    await CatalogueSeeder.SeedAsync(db, timeProvider);
 }
 else
 {
